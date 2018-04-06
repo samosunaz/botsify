@@ -1,0 +1,28 @@
+{
+  "name": "botsify",
+  "version": "1.0.0",
+  "description": "Advanced Database Final Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samosunaz/botsify.git"
+  },
+  "author": "Samuel Osuna, Julia Orduño",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/samosunaz/botsify/issues"
+  },
+  "homepage": "https://github.com/samosunaz/botsify#readme",
+  "dependencies": {
+    "@uirouter/angularjs": "^1.0.15",
+    "angular": "^1.6.9",
+    "eslint": "^4.19.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-inject": "^4.3.2"
+  }
+}
