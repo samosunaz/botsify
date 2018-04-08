@@ -18,12 +18,23 @@
   "homepage": "https://github.com/samosunaz/botsify#readme",
   "dependencies": {
     "@uirouter/angularjs": "^1.0.15",
-    "angular": "^1.6.9",
-    "eslint": "^4.19.1"
+    "angular": "^1.6.9"
   },
   "devDependencies": {
+    "add-stream": "^1.0.0",
+    "eslint": "^4.19.1",
+    "eslint-plugin-prettier": "^2.6.0",
     "gulp": "^3.9.1",
+    "gulp-angular-templatecache": "^2.2.0",
+    "gulp-autoprefixer": "^5.0.0",
+    "gulp-clean": "^0.4.0",
+    "gulp-concat": "^2.6.1",
     "gulp-connect": "^5.5.0",
-    "gulp-inject": "^4.3.2"
+    "gulp-flatten": "^0.4.0",
+    "gulp-htmlmin": "^4.0.0",
+    "gulp-inject": "^4.3.2",
+    "gulp-ng-annotate": "^2.1.0",
+    "prettier": "^1.11.1",
+    "stream-series": "^0.1.1"
   }
 }

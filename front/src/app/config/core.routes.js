@@ -1,25 +1,27 @@
 (function() {
-    'use strict';
+  'use strict';
 
-    angular
-        .module('botsifyApp')
-        .config(config)
-        .run(run);
+  angular
+    .module('botsifyApp')
+    .config(config)
+    .run(run);
 
-    function config($stateProvider, $urlRouterProvider) {
-        var homeState;
-        homeState = {
-            name: 'home',
-            url: '/',
-            controller: 'HomeController',
-            controllerAs: 'vm'
-            templateUrl: './../home/home.html',
-        };
+  /* @ngInject */
+  function config($stateProvider, $urlRouterProvider) {
+    var homeState;
+    homeState = {
+      name: 'home',
+      url: '/',
+      controller: 'HomeController',
+      controllerAs: 'vm',
+      templateUrl: 'home.html',
+    };
 
-        $stateProvider.state(homeState);
+    $stateProvider.state(homeState);
 
-        $urlRouterProvider.otherwise('/');
-    }
+    $urlRouterProvider.otherwise('/');
+  }
 
-    function run() {}
+  /* @ngInject */
+  function run() {}
 })();

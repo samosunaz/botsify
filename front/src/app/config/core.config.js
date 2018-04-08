@@ -1,12 +1,19 @@
 (function() {
-    'use strict';
+  'use strict';
 
-    angular
-        .module('botsifyApp')
-        .config(config)
-        .run(run);
+  angular
+    .module('botsifyApp')
+    .config(config)
+    .run(run);
 
-    function config(httpProvider, locationProvider) {}
+  /* @ngInject */
+  function config($httpProvider, $locationProvider) {
+    $locationProvider.html5Mode({
+      enabled: true,
+      requireBase: true,
+    });
+  }
 
-    function run() {}
+  /* @ngInject */
+  function run() {}
 })();
