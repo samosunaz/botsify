@@ -9,6 +9,8 @@
   /* @ngInject */
   function config($stateProvider, $urlRouterProvider) {
     var homeState;
+    var userState;
+
     homeState = {
       name: 'home',
       url: '/',
@@ -17,7 +19,15 @@
       templateUrl: 'home.html',
     };
 
-    $stateProvider.state(homeState);
+    userState = {
+      name: 'user',
+      url: '/user/:userId',
+      controller: 'UserController',
+      controllerAs: 'vm',
+      templateUrl: 'user.html',
+    };
+
+    $stateProvider.state(userState).state(homeState);
 
     $urlRouterProvider.otherwise('/');
   }

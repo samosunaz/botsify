@@ -1,30 +1,20 @@
+from flask import Flask, jsonify, make_response, request
+from flask_cors import CORS, cross_origin
+from twitter_api import twitter_setup
+import language_processor as lp
 import json
-import tweepy
-from tweepy import OAuthHandler
-from flask import Flask
+
+extractor = twitter_setup()
 
 app = Flask(__name__)
+CORS(app)
 
 
-@app.route('/')
-def hello():
-    return 'Hello'
+@app.route('/<string:account_id>/details', methods=['GET'])
+def get_tweets(account_id):
+    user = extractor.get_user(account_id)
+    return jsonify(user)
 
 
-consumer_key = '57y1XGBsbcqKj0bl1WQpoQTWW'
-consumer_secret = 'liFbSX9SggWwh0CbmWTFDJIhBnf24CW29FBXFWmM25uzVdFRzT'
-access_token = '554760078-Qouot6BOcrqZQ2N3BU9nxGiAhbsaZ81phDFiPIFF'
-access_secret = 'z5iS46WZHcQQqMJfJjdzsYZmGBq30EQrwEjBJITXQfuCd'
-
-auth = OAuthHandler(consumer_key, consumer_secret)
-auth.set_access_token(access_token, access_secret)
-
-api = tweepy.API(auth)
-
-
-def process_or_store(tweet):
-    print(json.dumps(tweet))
-
-
-for status in tweepy.Cursor(api.home_timeline).items(10):
-    process_or_store(status._json)
+if __name__ == '__main__':
+    app.run(debug=True)

@@ -18,7 +18,8 @@
   "homepage": "https://github.com/samosunaz/botsify#readme",
   "dependencies": {
     "@uirouter/angularjs": "^1.0.15",
-    "angular": "^1.6.9"
+    "angular": "^1.6.9",
+    "materialize-css": "^1.0.0-beta"
   },
   "devDependencies": {
     "add-stream": "^1.0.0",
@@ -35,6 +36,7 @@
     "gulp-inject": "^4.3.2",
     "gulp-ng-annotate": "^2.1.0",
     "prettier": "^1.11.1",
-    "stream-series": "^0.1.1"
+    "stream-series": "^0.1.1",
+    "twitter": "^1.7.1"
   }
 }

@@ -6,13 +6,17 @@
     .controller('HomeController', HomeController);
 
   /* @ngInject */
-  function HomeController($state) {
+  function HomeController($state, api) {
     var vm = this;
 
     activate();
 
+    vm.accountId = '';
+    
     //////////////////
 
-    function activate() {}
+    function activate() {
+      
+    }
   }
 })();

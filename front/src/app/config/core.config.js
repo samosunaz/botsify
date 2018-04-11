@@ -4,6 +4,7 @@
   angular
     .module('botsifyApp')
     .config(config)
+    .constant('API_URL', 'http://localhost:5000')
     .run(run);
 
   /* @ngInject */
