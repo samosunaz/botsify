@@ -21,12 +21,15 @@ var paths = {
     html: ['!./front/src/index.html', './front/src/**/*.html'],
   },
   vendor: {
-    css: ['./node_modules/materialize-css/dist/css/materialize.min.css'],
+    css: ['./node_modules/angular-material/angular-material.min.css'],
     js: [
       './node_modules/angular/angular.min.js',
+      './node_modules/angular-animate/angular-animate.min.js',
+      './node_modules/angular-aria/angular-aria.min.js',
+      './node_modules/angular-messages/angular-messages.min.js',
+      './node_modules/angular-material/angular-material.min.js',
       './node_modules/@uirouter/core/_bundles/ui-router-core.min.js',
       './node_modules/@uirouter/angularjs/release/angular-ui-router.min.js',
-      './node_modules/materialize-css/dist/js/materialize.min.js',
     ],
   },
   dist: {
@@ -45,7 +48,7 @@ gulp.task('connect', () => {
   connect.server({
     root: './front/dist/',
     livereload: true,
-    fallback: './front/dist/index.html'
+    fallback: './front/dist/index.html',
   });
 });
 
@@ -112,7 +115,15 @@ gulp.task('watch', () => {
   gulp.watch(paths.src.js, ['css', 'inject']);
 });
 
-gulp.task('default', ['inject', 'js', 'html', 'css', 'connect', 'watch', 'extra']);
+gulp.task('default', [
+  'inject',
+  'js',
+  'html',
+  'css',
+  'connect',
+  'watch',
+  'extra',
+]);
 
 function userCss() {
   return gulp
