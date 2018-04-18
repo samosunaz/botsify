@@ -1,19 +1,27 @@
-<div class="row">
-  <div class="col s12 m6 offset-m3">
-    <div class="card">
-      <div class="card-content black-text">
-        <span class="card-title">Card Title</span>
-        <form>
-          <div class="row">
-            <div class="input-field col s6 offset-s3">
-              <input type="text" placeholder="Account ID" ng-model="vm.accountId">
+<div layout="row" layout-align="center">
+  <div flex="60">
+    <md-card>
+      <md-card-title>
+        <md-card-title-text>
+          <div layout="row">
+            <div flex="85">
+              <span>Analyze User</span>
             </div>
           </div>
-        </form>
-      </div>
-      <div class="card-action">
-        <a class="waves-effect btn btn-block blue" ui-sref="user({userId: vm.accountId})">Get statistics</a>
-      </div>
-    </div>
+        </md-card-title-text>
+      </md-card-title>
+      <md-card-content>
+        <div layout="row" flex>
+          <md-input-container>
+            <input placeholder="Account ID" ng-model="vm.accountId" type="text">
+          </md-input-container>
+        </div>
+        <div layout="row" flex>
+          <md-button class="md-primary" ui-sref="user({userId: vm.accountId})">
+            Get statistics
+          </md-button>
+        </div>
+      </md-card-content>
+    </md-card>
   </div>
 </div>

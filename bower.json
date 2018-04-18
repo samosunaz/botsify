@@ -1,0 +1,22 @@
+{
+  "name": "botsify",
+  "description": "Advanced Database Final Project",
+  "main": "index.js",
+  "authors": [
+    "Samuel Osuna",
+    "Julia Orduño"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/samosunaz/botsify",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "chartist": "^0.11.0"
+  }
+}

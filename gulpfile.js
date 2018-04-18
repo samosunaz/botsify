@@ -21,7 +21,10 @@ var paths = {
     html: ['!./front/src/index.html', './front/src/**/*.html'],
   },
   vendor: {
-    css: ['./node_modules/angular-material/angular-material.min.css'],
+    css: [
+      './node_modules/angular-material/angular-material.min.css',
+      './bower_components/chartist/dist/chartist.min.css'
+    ],
     js: [
       './node_modules/angular/angular.min.js',
       './node_modules/angular-animate/angular-animate.min.js',
@@ -30,6 +33,7 @@ var paths = {
       './node_modules/angular-material/angular-material.min.js',
       './node_modules/@uirouter/core/_bundles/ui-router-core.min.js',
       './node_modules/@uirouter/angularjs/release/angular-ui-router.min.js',
+      './bower_components/chartist/dist/chartist.min.js'
     ],
   },
   dist: {

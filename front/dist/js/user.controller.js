@@ -1,6 +1,7 @@
 (function () {
   'use strict';
 
+  UserController.$inject = ['$state', '$stateParams', 'api'];
   angular
     .module('botsifyApp.core')
     .controller('UserController', UserController);
