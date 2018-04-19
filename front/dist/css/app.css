@@ -4,7 +4,14 @@ html {
   width: 100%;
   max-height: 100%;
   max-width: 100%;
-  background: #FCFCFC;
+  background: #FFFF;
+}
+
+md-container{
+  height: 100%;
+  width: 100%;
+  max-height: 100%;
+  max-width: 100%;
 }
 
 h3, p{
@@ -12,37 +19,11 @@ h3, p{
 }
 
 md-divider{
-  margin: 24px 0px;
+  margin: 24px;
 }
 
-div.cover{
-  height: 5px;
-}
-
-div.profile md-card{
-  min-height: 430px;
-}
-
-div.profile img.md-avatar{
-  width: 120px;
-  height: 120px;
-}
-
-div.profile h3{
-  font-weight: 500 !important;
-  font-size: 20px !important;
-  
-}
-
-div.profile h4 a{
-  font-size: 16px;
-  cursor: pointer;
-  text-decoration: none;
-}
-
-div.profile p{
-  font-weight: 400 !important;
-  padding-top: 15px;
+md-content{
+  background-color: #FFFF;
 }
 
 div.quick-numbers{
@@ -57,4 +38,52 @@ div.quick-numbers h4{
 div.quick-numbers span{
   font-weight: 500;
   font-size: 25px;
+}
+
+div.user-profile, div.activity-col{
+  height: 100%;
+  position: fixed;
+}
+
+div.user-profile{
+  width: 350px;
+  background-color: rgb(245,246, 250);
+  text-align: center;
+}
+
+div.activity-col{
+  right: 0%;
+  width: 250px;
+  border-left: rgb(245,246, 250) 1px solid;
+}
+
+div.user-profile>div:first-child{
+  margin-top: 40px;
+}
+
+div.user-profile img.md-avatar{
+  width: 100px;
+  height: 100px;
+  margin-left: 35%;
+}
+
+div.user-profile h3{
+  font-weight: 500 !important;
+  font-size: 20px !important;
+}
+
+div.user-profile h4 a{
+  font-size: 16px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+div.user-profile p{
+  font-weight: 400 !important;
+  padding-top: 15px;
+}
+
+div.main-col{
+  margin-left: 350px;
+  margin-right: 250px;
 }

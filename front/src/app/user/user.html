@@ -1,58 +1,63 @@
-<div layout="row" class="cover">
-  <div flex="100">
-    <img style="width: 100%" flex src="{{vm.user.profile_banner_url}}">
+<md-content>
+  <div layout="column" class="user-profile">
+    <div flex="20">
+      <div layout="row" layout-align="center">
+        <md-list-item class="md-3-line">
+          <img class="md-avatar" src="{{ vm.user.profile_image_url }}">
+        </md-list-item>
+      </div>
+    </div>
+    <div flex="20">
+      <div layout="row">
+        <md-list-item class="md-3-line">
+          <div class="md-list-item-text">
+            <h3>{{ vm.user.name }}</h3>
+            <h4>
+              <a ng-style="vm.style()" href="https://twitter.com/{{vm.user.screen_name}}">@{{ vm.user.screen_name }}</a>
+            </h4>
+            <p>{{ vm.user.description }}</p>
+          </div>
+        </md-list-item>
+      </div>
+      <md-divider></md-divider>
+    </div>
+    <div flex="20">
+      <div layout="row" class="quick-numbers">
+        <div flex="50">
+          <h4>Tweets</h4>
+          <span ng-style="vm.style()">
+            {{ vm.user.followers_count }}
+          </span>
+        </div>
+        <div flex="50">
+          <h4>Retweets</h4>
+          <span ng-style="vm.style()">
+            {{ vm.user.followers_count }}
+          </span>
+        </div>
+      </div>
+      <div layout="row" class="quick-numbers">
+        <div flex="50">
+          <h4>Followers</h4>
+          <span ng-style="vm.style()">
+            {{ vm.user.followers_count }}
+          </span>
+        </div>
+        <div flex="50">
+          <h4>Following</h4>
+          <span ng-style="vm.style()">
+            {{ vm.user.friends_count }}
+          </span>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
-<div layout="row" layout-align="center" class="profile">
-  <div flex="40">
-    <md-card ng-style="vm.style()">
-      <md-card-content>
-        <div layout="row" layout-align="center">
-          <md-list-item class="md-3-line">
-            <img class="md-avatar" src="{{ vm.user.profile_image_url }}">
-          </md-list-item>
-        </div>
-        <!-- -->
-        <div layout="row" layout-align="center">
-          <md-list-item class="md-3-line">
-            <div class="md-list-item-text">
-              <h3>{{ vm.user.name }}</h3>
-              <h4>
-                <a ng-style="vm.style()" href="https://twitter.com/{{vm.user.screen_name}}">@{{ vm.user.screen_name }}</a>
-              </h4>
-              <p>{{ vm.user.description }}</p>
-            </div>
-          </md-list-item>
-        </div>
-        <md-divider></md-divider>
-        <div layout="row" class="quick-numbers">
-          <div flex="25">
-            <h4>Tweets</h4>
-            <span>
-              {{ vm.user.followers_count }}
-            </span>
-          </div>
-          <div flex="25">
-            <h4>Retweets</h4>
-            <span>
-              {{ vm.user.followers_count }}
-            </span>
-          </div>
-          <div flex="25">
-            <h4>Followers</h4>
-            <span>
-              {{ vm.user.followers_count }}
-            </span>
-          </div>
-          <div flex="25">
-            <h4>Following</h4>
-            <span>
-              {{ vm.user.friends_count }}
-            </span>
-          </div>
-        </div>
-      </md-card-content>
-    </md-card>
+  <div class="main-col">
+    <div layout="row">
+      <div flex="100">
+        gola
+      </div>
+    </div>
   </div>
-</div>
-<div class="ct-chart ct-perfect-fourth"></div>
+  <div layout="column" class="activity-col"></div>
+</md-content>
