@@ -1,6 +1,7 @@
 (function () {
   'use strict';
 
+  api.$inject = ['$http', '$q', 'API_URL'];
   angular.module('botsifyApp.core').factory('api', api);
 
   /* @ngInject */

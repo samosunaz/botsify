@@ -1,6 +1,7 @@
 (function () {
   'use strict';
 
+  HomeController.$inject = ['$state', 'api'];
   angular
     .module('botsifyApp.core')
     .controller('HomeController', HomeController);

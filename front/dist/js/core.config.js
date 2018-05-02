@@ -1,6 +1,7 @@
 (function() {
   'use strict';
 
+  config.$inject = ['$httpProvider', '$locationProvider'];
   angular
     .module('botsifyApp')
     .config(config)
