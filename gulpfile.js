@@ -23,7 +23,8 @@ var paths = {
   vendor: {
     css: [
       './node_modules/angular-material/angular-material.min.css',
-      './bower_components/chartist/dist/chartist.min.css'
+      './node_modules/font-awesome/css/font-awesome.min.css'
+
     ],
     js: [
       './node_modules/angular/angular.min.js',
@@ -33,7 +34,8 @@ var paths = {
       './node_modules/angular-material/angular-material.min.js',
       './node_modules/@uirouter/core/_bundles/ui-router-core.min.js',
       './node_modules/@uirouter/angularjs/release/angular-ui-router.min.js',
-      './bower_components/chartist/dist/chartist.min.js'
+      './node_modules/chart.js/dist/Chart.min.js',
+      './node_modules/chart.js/dist/Chart.bundle.min.js',
     ],
   },
   dist: {
@@ -64,7 +66,7 @@ gulp.task('css', () => {
         browsers: ['last 3 versions'],
         cascade: true,
       }),
-    )
+  )
     .pipe(flatten())
     .pipe(gulp.dest(paths.dist.css));
 });
@@ -108,7 +110,7 @@ gulp.task('inject', () => {
         addRootSlash: false,
         ignorePath: 'front/dist/',
       }),
-    )
+  )
     .pipe(gulp.dest(paths.dist.root))
     .pipe(connect.reload());
 });
@@ -137,7 +139,7 @@ function userCss() {
         browsers: ['last 3 versions'],
         cascade: true,
       }),
-    )
+  )
     .pipe(flatten());
 }
 
@@ -148,7 +150,7 @@ function userJs() {
       ngAnnotate({
         single_quotes: true,
       }),
-    )
+  )
     .pipe(flatten());
 }
 

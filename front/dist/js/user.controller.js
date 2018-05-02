@@ -10,20 +10,6 @@
   function UserController($state, $stateParams, api) {
     var vm = this;
 
-    activate();
-
-    vm.style = function () {
-      return {
-        "color": "#" + vm.user.profile_link_color,
-      }
-    }
-
-    vm.background = function () {
-      return {
-        "background-color": "#" + vm.user.profile_link_color,
-      }
-    }
-
     vm.user = {
       "contributors_enabled": false,
       "created_at": "Mon Dec 27 00:18:52 +0000 2010",
@@ -124,14 +110,153 @@
       "verified": false
     }
 
+    activate();
+
+    vm.style = function () {
+      return {
+        "color": "#" + vm.user.profile_link_color,
+      }
+    }
+
+    function initMap() {
+      vm.map = new google.maps.Map(document.getElementById('heatmap'), {
+        zoom: 11,
+        center: { lat: 20.6737777, lng: -103.4054536 },
+        mapTypeId: 'roadmap',
+        radius: 300
+      });
+
+      var heatmap = new google.maps.visualization.HeatmapLayer({
+        data: [new google.maps.LatLng(20.6737777, -103.4054536 )],
+        map: vm.map
+      });
+    }
+
+    function hexToR(h) { return parseInt(h.substring(0, 2), 16) }
+    function hexToG(h) { return parseInt(h.substring(2, 4), 16) }
+    function hexToB(h) { return parseInt(h.substring(4, 6), 16) }
+
+    function setColorPallette() {
+      var r = hexToR(vm.user.profile_link_color);
+      var g = hexToG(vm.user.profile_link_color);
+      var b = hexToB(vm.user.profile_link_color);
+
+      var rgbColor = 'rgb(' + r + ',' + g + ',' + b + ',';
+      vm.pallette = [
+        rgbColor + '1)',
+        rgbColor + '0.8)',
+        rgbColor + '0.6)',
+        rgbColor + '0.6)',
+        rgbColor + '0.4)',
+        rgbColor + '0.2)',
+      ];
+    }
+
     function mostFrequentWords() {
-      var data = {
-        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
-        series: [
-          [5, 2, 4, 2, 0]
-        ]
-      };
-      new Chartist.Bar('.ct-chart-words', data);
+      var ctxWords = document.getElementById("words");
+      var ctxHashtags = document.getElementById("hashtags");
+      var options = {
+        type: 'doughnut',
+        data: {
+          labels: ["Red", "Blue"],
+          datasets: [{
+            data: [80, 20],
+            backgroundColor: [vm.pallette[0], vm.pallette[5]],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          cutoutPercentage: 80,
+          scales: {
+            xAxis: {
+              gridLineWidth: 0
+            },
+            yAxis: {
+              gridLineWidth: 0,
+              minorTickInterval: null
+            }
+          },
+          legend: {
+            display: false
+          }
+        }
+      }
+      var wordsChart = new Chart(ctxWords, options);
+      var hashtagsChart = new Chart(ctxHashtags, options);
+    }
+
+    function lineChart() {
+      var ctxLine = document.getElementById("line");
+      var options = {
+        type: 'line',
+        data: {
+          labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+          datasets: [{
+            data: [12, 19, 3, 5, 2, 3],
+            backgroundColor: vm.pallette[4],
+            borderWidth: 1,
+            borderColor: vm.pallette[0],
+          }]
+        },
+        options: {
+          scales: {
+            xAxes: [{
+              gridLines: {
+                display: false
+              }
+            }],
+            yAxes: [{
+              gridLines: {
+                display: false
+              }
+            }]
+          },
+          legend: {
+            display: false
+          }
+        }
+      }
+      var lineChart = new Chart(ctxLine, options);
+    }
+
+    function horizontalBarchart() {
+      var ctxHorizontal = document.getElementById("horizontal");
+      var options = {
+        type: 'horizontalBar',
+        data: {
+          labels: ["Red", "Blue", "Yellow"],
+          datasets: [{
+            data: [12, 19, 3],
+            backgroundColor: [vm.pallette[0], vm.pallette[2], vm.pallette[4]],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          scales: {
+            xAxes: [{
+              gridLines: {
+                display: false,
+                drawBorder: false
+              },
+              ticks: {
+                display: false
+              }
+            }],
+            yAxes: [{
+              gridLines: {
+                display: false,
+                drawBorder: false
+              },
+              barPercentage: 0.4,
+              categoryPercentage: 0.6
+            }]
+          },
+          legend: {
+            display: false
+          }
+        }
+      }
+      var horizontalBarchart = new Chart(ctxHorizontal, options);
     }
 
     function activate() {
@@ -161,8 +286,11 @@
         console.log(error);
       }
 
+      setColorPallette();
       mostFrequentWords();
-
+      lineChart();
+      horizontalBarchart();
+      initMap();
       ///
 
     }

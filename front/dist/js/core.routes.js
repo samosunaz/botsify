@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   config.$inject = ['$stateProvider', '$urlRouterProvider'];
@@ -11,6 +11,7 @@
   function config($stateProvider, $urlRouterProvider) {
     var homeState;
     var userState;
+    var tweetState;
 
     homeState = {
       name: 'home',
@@ -28,11 +29,19 @@
       templateUrl: 'user.html',
     };
 
-    $stateProvider.state(userState).state(homeState);
+    tweetState = {
+      name: 'tweet',
+      url: '/tweet/:tweetId',
+      controller: 'TweetController',
+      controllerAs: 'vm',
+      templateUrl: 'tweet.html',
+    };
+
+    $stateProvider.state(userState).state(homeState).state(tweetState);
 
     $urlRouterProvider.otherwise('/');
   }
 
   /* @ngInject */
-  function run() {}
+  function run() { }
 })();

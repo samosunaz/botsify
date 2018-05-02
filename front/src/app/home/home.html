@@ -1,27 +1,56 @@
-<div layout="row" layout-align="center">
-  <div flex="60">
-    <md-card>
-      <md-card-title>
-        <md-card-title-text>
-          <div layout="row">
-            <div flex="85">
-              <span>Analyze User</span>
-            </div>
-          </div>
-        </md-card-title-text>
-      </md-card-title>
-      <md-card-content>
-        <div layout="row" flex>
-          <md-input-container>
-            <input placeholder="Account ID" ng-model="vm.accountId" type="text">
-          </md-input-container>
-        </div>
-        <div layout="row" flex>
-          <md-button class="md-primary" ui-sref="user({userId: vm.accountId})">
-            Get statistics
-          </md-button>
-        </div>
-      </md-card-content>
-    </md-card>
+<md-content>
+  <div id="menu-col">
+    <div layout="row" flex>
+      <h2>Botsify</h2>
+    </div>
+    <div layout="row">
+      <md-list>
+        <md-list-item ng-click="vm.toggleView('users')">
+          <p>Users</p>
+        </md-list-item>
+        <md-list-item ng-click="vm.toggleView('tweets')">
+          <p>Tweets</p>
+        </md-list-item>
+      </md-list>
+    </div>
   </div>
-</div>
+  <div id="main-home">
+    <div layout="row">
+      <div flex="100" class="col">
+        <md-card>
+          <md-card-title>
+            <md-card-title-text>
+              <h2>{{vm.showUsers? 'Users': 'Tweets'}}</h2>
+            </md-card-title-text>
+          </md-card-title>
+          <md-divider></md-divider>
+          <md-card-content>
+            <div layout="row" style="padding-bottom: 0px">
+              <div flex="35">
+                <span>Analyze {{vm.showUsers? 'User':'Tweet'}}</span>
+              </div>
+            </div>
+            <div layout="row" flex>
+                <input ng-if="vm.showUsers" placeholder="Username" ng-model="vm.accountId" type="text">
+                <input ng-if="vm.showTweets" placeholder="Tweet ID" ng-model="vm.tweetId" type="text">
+            </div>
+            <div layout="row" flex>
+              <md-button ng-if="vm.showUsers" class="md-primary" ui-sref="user({userId: vm.accountId})">
+                Get statistics
+              </md-button>
+              <md-button ng-if="vm.showTweets" class="md-primary" ui-sref="tweet({tweetId: vm.tweetId})">
+                Get statistics
+              </md-button>
+            </div>
+          </md-card-content>
+        </md-card>
+      </div>
+    </div>
+    <div flex="60">
+      <md-card>
+
+
+      </md-card>
+    </div>
+  </div>
+</md-content>

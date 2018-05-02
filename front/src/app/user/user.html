@@ -21,7 +21,7 @@
       </div>
       <md-divider></md-divider>
     </div>
-    <div flex="20">
+    <div flex="50">
       <div layout="row" class="quick-numbers">
         <div flex="50">
           <h4>Tweets</h4>
@@ -51,13 +51,50 @@
         </div>
       </div>
     </div>
+    <md-button class="md-primary" ui-sref="home()">Go back</md-button>
   </div>
-  <div class="main-col">
-    <div layout="row">
-      <div flex="100">
-        gola
-      </div>
+  <div layout="row">
+    <div flex="50" class="main-col col">
+      <md-card>
+        <md-card-title>
+          <md-card-title-text>
+            <h2>Statistics<i class="fa fa-smile"></i></h2>
+          </md-card-title-text>
+        </md-card-title>
+      </md-card>
+      <md-card>
+        <div layout="row">
+          <div flex="50">
+            <canvas id="words"></canvas>
+            <h4>Words</h4>
+          </div>
+          <div flex="50">
+            <canvas id="hashtags"></canvas>
+            <h4>Hashtags</h4>
+          </div>
+        </div>
+      </md-card>
+      <md-card>
+        <div layout="row">
+          <h3>Something...</h3>
+        </div>
+        <div layout="row">
+          <canvas id="line"></canvas>
+        </div>
+      </md-card>
+    </div>
+    <div class="right-col col" flex="25">
+      <md-card>
+        <div layout="row">
+          <div flex="100">
+            <h3>Something...</h3>
+            <canvas id="horizontal"></canvas>
+          </div>
+        </div>
+      </md-card>
+      <md-card>
+        <md-card-content class="map-container" id="heatmap"></md-card-content>
+      </md-card>
     </div>
   </div>
-  <div layout="column" class="activity-col"></div>
 </md-content>
