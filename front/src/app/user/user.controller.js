@@ -8,12 +8,13 @@
   /* @ngInject */
   function UserController($state, $stateParams, api, $localStorage) {
     var vm = this;
-    vm.loaded = true;
+    vm.loaded = false;
     vm.sample = [{ word: '', count: 0 }, { word: '', count: 0 }, { word: '', count: 0 }];
     vm.retweets = 0;
     vm.favorites = 0;
     vm.replies = 0;
     vm.locations = {};
+    vm.hashtags = {};
 
     activate();
 
@@ -50,11 +51,12 @@
 
     function calculateInfluence() {
       var total = vm.tweets.length;
+      total = vm.total;
       vm.avgRt = vm.retweets / total;
       vm.avgFvt = vm.favorites / total;
       vm.avgRpl = vm.replies / total;
 
-      vm.engagementRate = ((vm.retweets + vm.favorites) / vm.user.followers_count * 100).toFixed(2);
+      vm.engagementRate = ((vm.avgRt + vm.avgFvt) / (vm.user.followers_count*0.6) * 100).toFixed(2);
       mostFrequentWords();
       storeData();
     }
@@ -76,13 +78,13 @@
       var start = moment(new Date(vm.tweets[vm.tweets.length-1].created_at));
       var end = moment(new Date(vm.tweets[0].created_at));
       var diff = end.diff(start, 'days');
-      vm.tweetFrequency = vm.tweets.length / diff;
+      vm.tweetFrequency = vm.total / diff;
     }
 
     function getHeatmapData() {
+      vm.total =0;
       vm.heatmapData = [];
       var center, lat, lng, coords;
-      console.log(vm.tweets);
       initTweetsArray();
       vm.tweets.map(function (tweet) {
         if (tweet.place) {
@@ -93,6 +95,7 @@
           vm.heatmapData.push(center);
         }
         if (!tweet.retweeted_status) {
+          vm.total++;
           vm.retweets += tweet.retweet_count;
           vm.favorites += tweet.favorite_count;
           vm.replies += tweet.reply_count;
@@ -138,8 +141,10 @@
     function mapMentions() {
       vm.topMentions = angular.copy(vm.sample);
       var mentionsArr = Object.keys(vm.mentions);
+      var normalized = {};
       mentionsArr.map(function (mention) {
         var count = vm.mentions[mention].number_of_mentions;
+        normalized[mention.toLowerCase()] = vm.mentions[mention];
         for (var i = 0; i < vm.topMentions.length; i++) {
           var curr = vm.topMentions[i];
           if (count >= curr.count) {
@@ -150,6 +155,7 @@
           }
         }
       });
+      vm.mentions = normalized;
       horizontalBarchart(vm.topMentions, "horizontal-mentions");
       mapRepeated();
     }
@@ -361,7 +367,6 @@
 
       function getTweetsComplete(response) {
         vm.tweets = response.data;
-        console.log(vm.tweets);
         getHeatmapData();
         tweetFrequency();
       }
