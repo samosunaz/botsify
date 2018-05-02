@@ -6,6 +6,7 @@
     'ngAria',
     'ngMessages',
     'ngMaterial',
-    'ui.router'
+    'ui.router',
+    'ngStorage'
   ]);
 })();

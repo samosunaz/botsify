@@ -6,129 +6,176 @@
     .controller('UserController', UserController);
 
   /* @ngInject */
-  function UserController($state, $stateParams, api) {
+  function UserController($state, $stateParams, api, $localStorage) {
     var vm = this;
-
-    vm.user = {
-      "contributors_enabled": false,
-      "created_at": "Mon Dec 27 00:18:52 +0000 2010",
-      "default_profile": false,
-      "default_profile_image": false,
-      "description": "awkward and weird\ud83d\udc69\ud83c\udffb\u200d\ud83d\udcbb",
-      "entities": {
-        "description": {
-          "urls": []
-        }
-      },
-      "favourites_count": 1654,
-      "follow_request_sent": false,
-      "followers_count": 653,
-      "following": true,
-      "friends_count": 392,
-      "geo_enabled": true,
-      "has_extended_profile": true,
-      "id": 230883160,
-      "id_str": "230883160",
-      "is_translation_enabled": false,
-      "is_translator": false,
-      "lang": "en",
-      "listed_count": 8,
-      "location": "Sinaloa, Mexico",
-      "name": "Julia",
-      "notifications": false,
-      "profile_background_color": "050505",
-      "profile_background_image_url": "http://pbs.twimg.com/profile_background_images/539509909000159232/NtYWsW4o.jpeg",
-      "profile_background_image_url_https": "https://pbs.twimg.com/profile_background_images/539509909000159232/NtYWsW4o.jpeg",
-      "profile_background_tile": false,
-      "profile_banner_url": "https://pbs.twimg.com/profile_banners/230883160/1516076250",
-      "profile_image_url": "http://pbs.twimg.com/profile_images/979759865655644160/GE9ej_Iv_normal.jpg",
-      "profile_image_url_https": "https://pbs.twimg.com/profile_images/979759865655644160/GE9ej_Iv_normal.jpg",
-      "profile_link_color": "19CF86",
-      "profile_location": null,
-      "profile_sidebar_border_color": "000000",
-      "profile_sidebar_fill_color": "0A54F5",
-      "profile_text_color": "FCFCFC",
-      "profile_use_background_image": true,
-      "protected": false,
-      "screen_name": "juliapaola_",
-      "status": {
-        "contributors": null,
-        "coordinates": null,
-        "created_at": "Tue Apr 17 21:46:05 +0000 2018",
-        "entities": {
-          "hashtags": [],
-          "symbols": [],
-          "urls": [],
-          "user_mentions": [
-            {
-              "id": 110023039,
-              "id_str": "110023039",
-              "indices": [
-                0,
-                14
-              ],
-              "name": "Alejandro Barba",
-              "screen_name": "_AlejandroBrb"
-            },
-            {
-              "id": 375943027,
-              "id_str": "375943027",
-              "indices": [
-                15,
-                29
-              ],
-              "name": "Maximiliano Contreras",
-              "screen_name": "maxcontrerasg"
-            }
-          ]
-        },
-        "favorite_count": 0,
-        "favorited": false,
-        "geo": null,
-        "id": 986360171529228289,
-        "id_str": "986360171529228289",
-        "in_reply_to_screen_name": "_AlejandroBrb",
-        "in_reply_to_status_id": 986342303689211904,
-        "in_reply_to_status_id_str": "986342303689211904",
-        "in_reply_to_user_id": 110023039,
-        "in_reply_to_user_id_str": "110023039",
-        "is_quote_status": false,
-        "lang": "es",
-        "place": null,
-        "retweet_count": 0,
-        "retweeted": false,
-        "source": "<a href=\"http://twitter.com\" rel=\"nofollow\">Twitter Web Client</a>",
-        "text": "@_AlejandroBrb @maxcontrerasg No te dio cr\u00e9ditos por la foto",
-        "truncated": false
-      },
-      "statuses_count": 13354,
-      "time_zone": "Pacific Time (US & Canada)",
-      "translator_type": "none",
-      "url": null,
-      "utc_offset": -25200,
-      "verified": false
-    }
+    vm.loaded = true;
+    vm.sample = [{ word: '', count: 0 }, { word: '', count: 0 }, { word: '', count: 0 }];
+    vm.retweets = 0;
+    vm.favorites = 0;
+    vm.replies = 0;
+    vm.locations = {};
 
     activate();
 
-    vm.style = function () {
-      return {
-        "color": "#" + vm.user.profile_link_color,
+    function initTweetsArray() {
+      vm.tweetsArray = []
+      for (var i = 0; i < 10; i++) {
+        vm.tweetsArray.push({text:'', rt:0, likes: 0});
       }
+
+    }
+
+    function storeData() {
+      var storage = $localStorage.users;
+      var equal = false;
+      var obj = {
+        username: vm.user.screen_name,
+        engagement: vm.engagementRate
+      }
+
+      for(var i=0; i<storage.length; i++){
+        var item = storage[i];
+        if(item.username == obj.username){
+          item.engagement = obj.engagement;
+          equal =true;
+          break;
+        }
+      }
+
+      if(!equal){
+        storage.push(obj);
+      }
+      $localStorage.users = storage;
+    }
+
+    function calculateInfluence() {
+      var total = vm.tweets.length;
+      vm.avgRt = vm.retweets / total;
+      vm.avgFvt = vm.favorites / total;
+      vm.avgRpl = vm.replies / total;
+
+      vm.engagementRate = ((vm.retweets + vm.favorites) / vm.user.followers_count * 100).toFixed(2);
+      mostFrequentWords();
+      storeData();
+    }
+
+    function mapHashtags() {
+      var hashtagsdArr = Object.keys(vm.hashtags);
+      var words = [];
+      hashtagsdArr.map(function (word) {
+        var count = vm.hashtags[word];
+        words.push({ text: word, weight: count });
+      });
+      $('#hashtags').jQCloud(words, {
+        width: 350,
+        height: 150
+      });
+    }
+
+    function tweetFrequency() {
+      var start = moment(new Date(vm.tweets[vm.tweets.length-1].created_at));
+      var end = moment(new Date(vm.tweets[0].created_at));
+      var diff = end.diff(start, 'days');
+      vm.tweetFrequency = vm.tweets.length / diff;
+    }
+
+    function getHeatmapData() {
+      vm.heatmapData = [];
+      var center, lat, lng, coords;
+      console.log(vm.tweets);
+      initTweetsArray();
+      vm.tweets.map(function (tweet) {
+        if (tweet.place) {
+          coords = tweet.place.bounding_box.coordinates[0];
+          lng = (coords[0][0] + coords[1][0]) / 2;
+          lat = (coords[1][1] + coords[2][1]) / 2;
+          center = new google.maps.LatLng(lat, lng);
+          vm.heatmapData.push(center);
+        }
+        if (!tweet.retweeted_status) {
+          vm.retweets += tweet.retweet_count;
+          vm.favorites += tweet.favorite_count;
+          vm.replies += tweet.reply_count;
+
+          for(var i=0; i<vm.tweetsArray.length; i++){
+            var avg = (tweet.retweet_count+tweet.favorite_count)/2;
+            var currAvg = (vm.tweetsArray[i].rt + vm.tweetsArray[i].likes)/2;
+            if(avg >= currAvg){
+              var newObj = {text: tweet.text, rt: tweet.retweet_count, likes: tweet.favorite_count};
+              vm.tweetsArray.splice(i, 0, newObj);
+              vm.tweetsArray = vm.tweetsArray.slice(0, vm.tweetsArray.length-1);
+              break;
+            }
+          }
+        }
+
+      });
+      initMap();
+      calculateInfluence();
+    }
+
+    function mapRepeated() {
+      vm.topWords = angular.copy(vm.sample);
+      var repeatedArr = Object.keys(vm.repeated);
+      repeatedArr.map(function (word) {
+        var count = vm.repeated[word];
+        for (var i = 0; i < vm.topWords.length; i++) {
+          if (!vm.mentions[word] && word.length>2) {
+            var curr = vm.topWords[i];
+            if (count >= curr.count) {
+              var newObj = { word: word, count: count };
+              vm.topWords.splice(i, 0, newObj);
+              vm.topWords = vm.topWords.slice(0, vm.topWords.length - 1);
+              break;
+            }
+          }
+        }
+
+      });
+      horizontalBarchart(vm.topWords, "horizontal-words");
+    };
+
+    function mapMentions() {
+      vm.topMentions = angular.copy(vm.sample);
+      var mentionsArr = Object.keys(vm.mentions);
+      mentionsArr.map(function (mention) {
+        var count = vm.mentions[mention].number_of_mentions;
+        for (var i = 0; i < vm.topMentions.length; i++) {
+          var curr = vm.topMentions[i];
+          if (count >= curr.count) {
+            var newObj = { word: mention, count: count };
+            vm.topMentions.splice(i, 0, newObj);
+            vm.topMentions = vm.topMentions.slice(0, vm.topMentions.length - 1);
+            break;
+          }
+        }
+      });
+      horizontalBarchart(vm.topMentions, "horizontal-mentions");
+      mapRepeated();
     }
 
     function initMap() {
+      var center;
+      if(vm.heatmapData[0]){
+        center = {lat: vm.heatmapData[0].lat(), lng: vm.heatmapData[0].lng()}
+      } else{
+        center = { lat: 20.6737777, lng: -103.4054536 };
+      }
+      
       vm.map = new google.maps.Map(document.getElementById('heatmap'), {
-        zoom: 11,
-        center: { lat: 20.6737777, lng: -103.4054536 },
+        
+        zoom: 5,
+        center: center,
         mapTypeId: 'roadmap',
         radius: 300
       });
 
       var heatmap = new google.maps.visualization.HeatmapLayer({
-        data: [new google.maps.LatLng(20.6737777, -103.4054536 )],
+        data: vm.heatmapData,
         map: vm.map
       });
+
+      vm.loaded = true;
     }
 
     function hexToR(h) { return parseInt(h.substring(0, 2), 16) }
@@ -153,13 +200,12 @@
 
     function mostFrequentWords() {
       var ctxWords = document.getElementById("words");
-      var ctxHashtags = document.getElementById("hashtags");
       var options = {
         type: 'doughnut',
         data: {
-          labels: ["Red", "Blue"],
+          labels: ["Engagement", ""],
           datasets: [{
-            data: [80, 20],
+            data: [vm.engagementRate, (100-vm.engagementRate).toFixed(2)],
             backgroundColor: [vm.pallette[0], vm.pallette[5]],
             borderWidth: 0
           }]
@@ -181,7 +227,6 @@
         }
       }
       var wordsChart = new Chart(ctxWords, options);
-      var hashtagsChart = new Chart(ctxHashtags, options);
     }
 
     function lineChart() {
@@ -218,14 +263,20 @@
       var lineChart = new Chart(ctxLine, options);
     }
 
-    function horizontalBarchart() {
-      var ctxHorizontal = document.getElementById("horizontal");
+    function horizontalBarchart(arrData, id) {
+      var labels = [];
+      var data = [];
+      arrData.map(function (item) {
+        labels.push(item.word);
+        data.push(item.count);
+      });
+      var ctxHorizontal = document.getElementById(id);
       var options = {
         type: 'horizontalBar',
         data: {
-          labels: ["Red", "Blue", "Yellow"],
+          labels: labels,
           datasets: [{
-            data: [12, 19, 3],
+            data: data,
             backgroundColor: [vm.pallette[0], vm.pallette[2], vm.pallette[4]],
             borderWidth: 0
           }]
@@ -238,7 +289,8 @@
                 drawBorder: false
               },
               ticks: {
-                display: false
+                display: false,
+                beginAtZero: true
               }
             }],
             yAxes: [{
@@ -252,7 +304,8 @@
           },
           legend: {
             display: false
-          }
+          },
+          responsive: true
         }
       }
       var horizontalBarchart = new Chart(ctxHorizontal, options);
@@ -269,27 +322,58 @@
         .then(getRepeatedComplete)
         .catch(getUserFailed);
 
+      api
+        .getTimeline($stateParams.userId)
+        .then(getTimelineComplete)
+        .catch(getUserFailed);
+
+      api
+        .getTweets($stateParams.userId)
+        .then(getTweetsComplete)
+        .catch(getUserFailed);
+
+      api
+        .getHashtags($stateParams.userId)
+        .then(getHashtagsComplete)
+        .catch(getUserFailed);
+
       function getUserComplete(response) {
-        console.log(response);
-        //vm.user = response.data;
-        //getUserTheme();
+        vm.user = response.data;
+        setColorPallette();
+        
+        //lineChart();
+        vm.style = function () {
+          return {
+            "color": "#" + vm.user.profile_link_color,
+          }
+        }
       }
 
       function getRepeatedComplete(response) {
-        console.log(response);
-        //vm.user = response.data;
-        //getUserTheme();
+        vm.repeated = response.data;
+
+      }
+
+      function getTimelineComplete(response) {
+        vm.mentions = response.data;
+        mapMentions();
+      }
+
+      function getTweetsComplete(response) {
+        vm.tweets = response.data;
+        console.log(vm.tweets);
+        getHeatmapData();
+        tweetFrequency();
+      }
+
+      function getHashtagsComplete(response) {
+        vm.hashtags = response.data;
+        mapHashtags();
       }
 
       function getUserFailed(error) {
         console.log(error);
       }
-
-      setColorPallette();
-      mostFrequentWords();
-      lineChart();
-      horizontalBarchart();
-      initMap();
       ///
 
     }

@@ -1,4 +1,7 @@
 <md-content>
+  <div ng-if="!vm.loaded" style="width: 100%; height: 100%; z-index: 50; background-color: rgba(255,255,255,0.8); position: absolute;">
+    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+  </div>
   <div layout="column" class="user-profile">
     <div flex="20">
       <div layout="row" layout-align="center">
@@ -7,7 +10,7 @@
         </md-list-item>
       </div>
     </div>
-    <div flex="20">
+    <div flex="30">
       <div layout="row">
         <md-list-item class="md-3-line">
           <div class="md-list-item-text">
@@ -16,23 +19,24 @@
               <a ng-style="vm.style()" href="https://twitter.com/{{vm.user.screen_name}}">@{{ vm.user.screen_name }}</a>
             </h4>
             <p>{{ vm.user.description }}</p>
+            <p>{{ vm.user.location }}</p>
           </div>
         </md-list-item>
       </div>
       <md-divider></md-divider>
     </div>
-    <div flex="50">
+    <div flex="40">
       <div layout="row" class="quick-numbers">
         <div flex="50">
-          <h4>Tweets</h4>
+          <h4>Favs</h4>
           <span ng-style="vm.style()">
-            {{ vm.user.followers_count }}
+            {{ vm.user.favourites_count }}
           </span>
         </div>
         <div flex="50">
-          <h4>Retweets</h4>
+          <h4>Tweets</h4>
           <span ng-style="vm.style()">
-            {{ vm.user.followers_count }}
+            {{ vm.user.statuses_count }}
           </span>
         </div>
       </div>
@@ -58,37 +62,73 @@
       <md-card>
         <md-card-title>
           <md-card-title-text>
-            <h2>Statistics<i class="fa fa-smile"></i></h2>
+            <h2>Statistics
+              <h4>Sample: {{vm.tweets.length}}</h4>
+              <div layout="row">
+                <div flex="30">
+                  <h4>{{vm.tweetFrequency | number:2}} tweets per day</h4>
+                </div>
+                <div flex="30">
+                  <h4>{{vm.avgRt | number:2}} retweets per day</h4>
+                </div>
+                <div flex="30">
+                  <h4>{{vm.avgFvt | number:2}} likes per day</h4>
+                </div>
+              </div>
+            </h2>
           </md-card-title-text>
         </md-card-title>
       </md-card>
       <md-card>
         <div layout="row">
-          <div flex="50">
+          <div flex="40">
             <canvas id="words"></canvas>
-            <h4>Words</h4>
+            <h4>Engagement: {{vm.engagementRate}}</h4>
           </div>
-          <div flex="50">
-            <canvas id="hashtags"></canvas>
-            <h4>Hashtags</h4>
+          <div flex="60">
+            <div id="hashtags"></div>
           </div>
         </div>
       </md-card>
-      <md-card>
+      <md-card class="tweets-card">
+        <div layout="row">
+          <h3>Top Tweets..</h3>
+        </div>
+        <div layout="row">
+          <md-content class="tweets-container" flex="100">
+            <md-list flex>
+              <md-list-item ng-repeat="tweet in vm.tweetsArray">
+                <h4>{{ tweet.text }}</h4>
+                <p class="md-secondary blue" style="margin-right: 8px">{{ tweet.rt }}rts</p>
+                <p class="md-secondary blue">{{ tweet.likes }}likes</p>
+              </md-list-item>
+            </md-list>
+          </md-content>
+        </div>
+      </md-card>
+      <!--<md-card>
         <div layout="row">
           <h3>Something...</h3>
         </div>
         <div layout="row">
           <canvas id="line"></canvas>
         </div>
-      </md-card>
+      </md-card>-->
     </div>
     <div class="right-col col" flex="25">
       <md-card>
         <div layout="row">
           <div flex="100">
-            <h3>Something...</h3>
-            <canvas id="horizontal"></canvas>
+            <h3>Most Frequent Words...</h3>
+            <canvas id="horizontal-words"></canvas>
+          </div>
+        </div>
+      </md-card>
+      <md-card>
+        <div layout="row">
+          <div flex="100">
+            <h3>Most Frequent Mentions...</h3>
+            <canvas id="horizontal-mentions"></canvas>
           </div>
         </div>
       </md-card>
