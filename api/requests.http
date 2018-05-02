@@ -1,0 +1,8 @@
+GET http://192.168.0.6:5000/Samuel_Osunaz/details
+GET http://192.168.0.6:5000/Samuel_Osunaz/mentions
+GET http://192.168.0.6:5000/juliapaola_/details
+GET http://192.168.0.6:5000/juliapaola_/mentions
+GET http://192.168.0.6:5000/juliapaola_/tweets
+
+GET http://192.168.0.6:5000/juliapaola_/words
+GET http://192.168.0.6:5000/nabileahumada/tweets/locations
