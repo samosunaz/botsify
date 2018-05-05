@@ -1,4 +1,4 @@
-(function () {
+(function() {
   'use strict';
 
   HomeController.$inject = ['$state', 'api'];
@@ -10,7 +10,7 @@
   function HomeController($state, api) {
     var vm = this;
 
-    vm.toggleView = function (view) {
+    vm.toggleView = function(view) {
       switch (view) {
         case 'users':
           vm.showTweets = false;
@@ -20,8 +20,13 @@
           vm.showUsers = false;
           vm.showTweets = true;
           break;
+        case 'stream':
+          vm.showUsers = false;
+          vm.showTweets = false;
+          vm.showStream = true;
+          break;
       }
-    }
+    };
 
     activate();
 
@@ -32,6 +37,7 @@
       vm.tweetId = '';
       vm.showUsers = true;
       vm.showTweets = false;
+      vm.showStream = false;
     }
   }
 })();
