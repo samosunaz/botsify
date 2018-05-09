@@ -57,7 +57,7 @@
       vm.avgFvt = vm.favorites / total;
       vm.avgRpl = vm.replies / total;
 
-      vm.engagementRate = ((vm.avgRt + vm.avgFvt) / (vm.user.followers_count*0.6) * 100).toFixed(2);
+      vm.engagementRate = ((vm.avgRt + vm.avgFvt*0.7) / (vm.user.followers_count*0.6) * 100).toFixed(2);
       mostFrequentWords();
       storeData();
     }
