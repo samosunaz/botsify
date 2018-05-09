@@ -11,8 +11,8 @@ from string import punctuation
 from sklearn.feature_extraction.text import CountVectorizer
 from textblob import TextBlob
 
-reload(sys)
-sys.setdefaultencoding('utf8')
+""" reload(sys)
+sys.setdefaultencoding('utf8') """
 
 spanish_tokenizer = nltk.data.load('tokenizers/punkt/spanish.pickle')
 
@@ -35,8 +35,3 @@ def clear_text(sentence):
     tokens = tokenize(sentence)
     filtered_sentence = [w for w in tokens if not w in stop_words]
     return filtered_sentence
-
-
-def analyze_sentiment(sentence):
-    sentiment = TextBlob(clear_text(sentence))
-    print(sentiment)

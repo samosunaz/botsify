@@ -1,4 +1,4 @@
-(function () {
+(function() {
   'use strict';
 
   config.$inject = ['$stateProvider', '$urlRouterProvider'];
@@ -12,6 +12,7 @@
     var homeState;
     var userState;
     var tweetState;
+    var streamState;
 
     homeState = {
       name: 'home',
@@ -37,11 +38,23 @@
       templateUrl: 'tweet.html',
     };
 
-    $stateProvider.state(userState).state(homeState).state(tweetState);
+    streamState = {
+      name: 'stream',
+      url: '/stream',
+      controller: 'StreamController',
+      controllerAs: 'vm',
+      templateUrl: 'stream.html',
+    };
+
+    $stateProvider
+      .state(userState)
+      .state(homeState)
+      .state(tweetState)
+      .state(streamState);
 
     $urlRouterProvider.otherwise('/');
   }
 
   /* @ngInject */
-  function run() { }
+  function run() {}
 })();

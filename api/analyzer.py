@@ -12,3 +12,4 @@ def is_irrelevant(word):
 
 def clear_tweet(tweet):
     return language_processor.clear_text(tweet)
+

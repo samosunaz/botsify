@@ -1,4 +1,4 @@
-(function () {
+(function() {
   'use strict';
 
   angular
@@ -25,8 +25,13 @@
           vm.showUsers = false;
           vm.showTweets = true;
           break;
+        case 'stream':
+          vm.showUsers = false;
+          vm.showTweets = false;
+          vm.showStream = true;
+          break;
       }
-    }
+    };
 
     activate();
 
@@ -37,6 +42,7 @@
       vm.tweetId = '';
       vm.showUsers = true;
       vm.showTweets = false;
+      vm.showStream = false;
     }
   }
 })();
