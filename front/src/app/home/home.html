@@ -1,20 +1,24 @@
 <md-content>
   <div id="menu-col">
     <div layout="row" flex>
-      <h2>Botsify</h2>
+      <h2>TWalker</h2>
     </div>
     <div layout="row">
       <md-list>
         <md-list-item ng-click="vm.toggleView('users')">
           <p>Users</p>
         </md-list-item>
-        <md-list-item ng-click="vm.toggleView('tweets')">
+        <!--<md-list-item ng-click="vm.toggleView('tweets')">
           <p>Tweets</p>
         </md-list-item>
+<<<<<<< HEAD
         <md-list-item ui-sref="stream">
           <p>Stream</p>
         </md-list-item>
       </md-list>
+=======
+      </md-list>-->
+>>>>>>> 0fa68780817264280eb45d1d0114feed984ad0ac
     </div>
   </div>
   <div id="main-home">
@@ -28,32 +32,41 @@
           </md-card-title>
           <md-divider></md-divider>
           <md-card-content>
-            <div layout="row" style="padding-bottom: 0px">
-              <div flex="35">
-                <span>Analyze {{vm.showUsers? 'User':'Tweet'}}</span>
+            <div layout="row">
+              <div flex="50">
+                <div layout="row" style="padding-bottom: 0px">
+                  <div flex="35">
+                    <span>Analyze {{vm.showUsers? 'User':'Tweet'}}</span>
+                  </div>
+                </div>
+                <div layout="row" flex>
+                  <input ng-if="vm.showUsers" placeholder="Username" ng-model="vm.accountId" type="text">
+                  <input ng-if="vm.showTweets" placeholder="Tweet ID" ng-model="vm.tweetId" type="text">
+                </div>
+                <div layout="row" flex>
+                  <md-button ng-disabled="!vm.accountId" ng-if="vm.showUsers" class="md-primary" ui-sref="user({userId: vm.accountId})">
+                    Get statistics
+                  </md-button>
+                  <md-button ng-disabled="!vm.tweetId" ng-if="vm.showTweets" class="md-primary" ui-sref="tweet({tweetId: vm.tweetId})">
+                    Get statistics
+                  </md-button>
+                </div>
               </div>
-            </div>
-            <div layout="row" flex>
-                <input ng-if="vm.showUsers" placeholder="Username" ng-model="vm.accountId" type="text">
-                <input ng-if="vm.showTweets" placeholder="Tweet ID" ng-model="vm.tweetId" type="text">
-            </div>
-            <div layout="row" flex>
-              <md-button ng-if="vm.showUsers" class="md-primary" ui-sref="user({userId: vm.accountId})">
-                Get statistics
-              </md-button>
-              <md-button ng-if="vm.showTweets" class="md-primary" ui-sref="tweet({tweetId: vm.tweetId})">
-                Get statistics
-              </md-button>
+              <div flex="50">
+                <md-content class="tweets-container" flex="100">
+                  <md-list flex>
+                    <md-subheader class="md-no-sticky">Engagement Rate</md-subheader>
+                    <md-list-item ng-repeat="user in vm.storage" ui-sref="user({userId: user.username})">
+                      <h4>{{ user.username }}</h4>
+                      <p class="md-secondary" ng-class="{'red': user.influence <= 35, 'yellow': user.influence > 35 && tweet.amount <= 70, 'green':user.influence > 70 }">{{ user.engagement }}%</p>
+                    </md-list-item>
+                  </md-list>
+                </md-content>
+              </div>
             </div>
           </md-card-content>
         </md-card>
       </div>
-    </div>
-    <div flex="60">
-      <md-card>
-
-
-      </md-card>
     </div>
   </div>
 </md-content>
