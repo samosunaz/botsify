@@ -14,7 +14,6 @@ Before Running the project please make sure you have the next dependencies:
 Clone the repository and install npm and bower dependencies:
 
 ```
-#!javascript   
 $ npm install && bower install
 
 ```
@@ -22,21 +21,18 @@ $ npm install && bower install
 Run the  API with:
 
 ```
-#!javascript
 SAMMYYYYY!!!!
 ```
 
 Look for the following output in your logs:
 
 ```
-#!javascript
 SAMMYYYYY!!!
 ```
 
 To run the application use:
 
 ```
-#!javascript   
 $ gulp default
 
 ```
@@ -44,7 +40,6 @@ $ gulp default
 Look for the following output in your logs:
 
 ```
-#!javascript
 no me acuerdo jijij
 ```
 
