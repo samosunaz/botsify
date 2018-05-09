@@ -1,5 +1,5 @@
 (function() {
-    'use strict';
+  'use strict';
 
-    angular.module('botsifyApp', ['botsifyApp.core']);
+  angular.module('botsifyApp', ['botsifyApp.core']);
 })();

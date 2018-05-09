@@ -1,25 +1,59 @@
 (function() {
-    'use strict';
+  'use strict';
 
-    angular
-        .module('botsifyApp')
-        .config(config)
-        .run(run);
+  angular
+    .module('botsifyApp')
+    .config(config)
+    .run(run);
 
-    function config($stateProvider, $urlRouterProvider) {
-        var homeState;
-        homeState = {
-            name: 'home',
-            url: '/',
-            controller: 'HomeController',
-            controllerAs: 'vm'
-            templateUrl: './../home/home.html',
-        };
+  /* @ngInject */
+  function config($stateProvider, $urlRouterProvider) {
+    var homeState;
+    var userState;
+    var tweetState;
+    var streamState;
 
-        $stateProvider.state(homeState);
+    homeState = {
+      name: 'home',
+      url: '/',
+      controller: 'HomeController',
+      controllerAs: 'vm',
+      templateUrl: 'home.html',
+    };
 
-        $urlRouterProvider.otherwise('/');
-    }
+    userState = {
+      name: 'user',
+      url: '/user/:userId',
+      controller: 'UserController',
+      controllerAs: 'vm',
+      templateUrl: 'user.html',
+    };
 
-    function run() {}
+    tweetState = {
+      name: 'tweet',
+      url: '/tweet/:tweetId',
+      controller: 'TweetController',
+      controllerAs: 'vm',
+      templateUrl: 'tweet.html',
+    };
+
+    streamState = {
+      name: 'stream',
+      url: '/stream',
+      controller: 'StreamController',
+      controllerAs: 'vm',
+      templateUrl: 'stream.html',
+    };
+
+    $stateProvider
+      .state(userState)
+      .state(homeState)
+      .state(tweetState)
+      .state(streamState);
+
+    $urlRouterProvider.otherwise('/');
+  }
+
+  /* @ngInject */
+  function run() {}
 })();
