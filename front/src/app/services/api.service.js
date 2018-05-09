@@ -8,6 +8,9 @@
     var service = {
       getUser: getUser,
       getRepeatedWords: getRepeatedWords,
+      getTimeline: getTimeline,
+      getTweets: getTweets,
+      getHashtags: getHashtags
     };
 
     return service;
@@ -15,12 +18,10 @@
     ////////////////
 
     function successCallback(response) {
-      console.log(response);
       return response;
     }
 
     function errorCallback(error) {
-      console.log(error);
       return $q.reject(error);
     }
 
@@ -33,7 +34,28 @@
 
     function getRepeatedWords(userId) {
       return $http
+        .get(API_URL + '/' + userId + '/words')
+        .then(successCallback)
+        .catch(errorCallback);
+    }
+
+    function getTimeline(userId) {
+      return $http
+        .get(API_URL + '/' + userId + '/mentions')
+        .then(successCallback)
+        .catch(errorCallback);
+    }
+
+    function getTweets(userId) {
+      return $http
         .get(API_URL + '/' + userId + '/tweets')
+        .then(successCallback)
+        .catch(errorCallback);
+    }
+
+    function getHashtags(userId) {
+      return $http
+        .get(API_URL + '/' + userId + '/hashtags')
         .then(successCallback)
         .catch(errorCallback);
     }

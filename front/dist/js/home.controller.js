@@ -1,16 +1,22 @@
 (function () {
   'use strict';
 
-  HomeController.$inject = ['$state', 'api'];
+  HomeController.$inject = ['$state', 'api', '$localStorage'];
   angular
     .module('botsifyApp.core')
     .controller('HomeController', HomeController);
 
   /* @ngInject */
-  function HomeController($state, api) {
+  function HomeController($state, api, $localStorage) {
     var vm = this;
+    if(!$localStorage.users){
+      $localStorage.users = []
+    }
+    vm.storage = $localStorage.users;
 
     vm.toggleView = function (view) {
+      vm.accountId = '';
+      vm.tweetId = '';
       switch (view) {
         case 'users':
           vm.showTweets = false;
