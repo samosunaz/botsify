@@ -41,35 +41,33 @@ def get_locations(user_id):
         locations.append(status)
     return jsonify(locations)
 
-
-@app.route('/<string:user_id>/tweets', methods=['GET'])
-def clear_tweets(user_id):
-    repeated_words = dict()
-    timeline = extractor.user_timeline(id=user_id, count=100)
-    for status in timeline:
-        for word in analyzer.clear_tweet(status["text"]):
-            print(word)
-            if word in repeated_words:
-                repeated_words[word] += 1
-            else:
-                repeated_words[word] = 1
-    return jsonify(repeated_words)
-
-
 @app.route('/<string:user_id>/words', methods=['GET'])
 def get_repeated_words(user_id):
     repeated_words = dict()
     timeline = extractor.user_timeline(id=user_id, count=100)
     for status in timeline:
         for word in analyzer.clear_tweet(status["text"]):
-            print(word)
             if word in repeated_words:
                 repeated_words[word] += 1
             else:
-                repeated_words[word] = 1
+                if not analyzer.is_irrelevant(word):
+                    repeated_words[word] = 1
     return jsonify(repeated_words)
+
+
+@app.route('/<string:user_id>/hashtags', methods=['GET'])
+def get_hashtags(user_id):
+    hashtags = dict()
+    timeline = extractor.user_timeline(id=user_id, count=1300)
+    for status in timeline:
+        for hashtag in status['entities']['hashtags']:
+            if hashtag["text"] in hashtags:
+                hashtags[hashtag["text"]] += 1
+            else:
+                hashtags[hashtag["text"]] = 1
+    return jsonify(hashtags)
 
 
 if __name__ == '__main__':
     app.config['JSON_AS_ASCII'] = False
-    app.run(host='192.168.0.6', port=5000, debug=True)
+    app.run(host='192.168.0.3', port=5000, debug=True)
