@@ -44,6 +44,6 @@ no me acuerdo jijij
 ```
 
 ## To use TWalker ##
-Enter the application, the home page has only one input: User ID. There you must type the username of the profile you wanna analyze. Is important to respect uppeercase and lowercase, otherwise you won't get the results.
+Enter the application, the home page has only one input: User ID. There you must type the username of the profile you want to analyze. Is important to respect uppercases and lowercases, otherwise you won't get the results.
 
 Then, click the *Get Statistics* button and see the magic!
