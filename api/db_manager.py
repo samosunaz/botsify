@@ -16,6 +16,7 @@ def get_tweets():
     for document in cursor:
         document.pop('_id')
         documents.append(document)
+    print(documents)
     return documents
 
 
@@ -39,3 +40,5 @@ def get_user_tweets(user_id):
         doc.pop('_id')
         docs.append(doc)
     return docs
+
+get_tweets()

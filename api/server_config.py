@@ -14,4 +14,4 @@ app.config['JSON_AS_ASCII'] = False
 CORS(app)
 
 if __name__ == '__main__':
-    app.run(host="10.43.93.183", port=5000, debug=True)
+    app.run(host="192.168.0.5", port=5000, debug=True)

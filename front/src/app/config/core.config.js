@@ -5,7 +5,7 @@
     .module('botsifyApp')
     .config(config)
     //.constant('API_URL', 'http://localhost:5000')
-    .constant('API_URL', 'http://10.43.93.183:5000')
+    .constant('API_URL', 'http://192.168.0.5:5000')
     .run(run);
 
   /* @ngInject */

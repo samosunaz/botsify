@@ -24,6 +24,7 @@ twitter_routes = Blueprint('twitter_routes', __name__)
 @twitter_routes.route('/<string:account_id>/details', methods=['GET'])
 def details(account_id):
     user = extractor.get_user(account_id)
+    print(user)
     return jsonify(user)
 
 
